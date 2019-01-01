@@ -5,8 +5,6 @@
 ##### 更新日志
 * v0.1
     * 静态html 基于materialize框架
-=======
-    * 静态html 基于materialize框架
 	
 * v0.2
 	* 转为使用PHP
