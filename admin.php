@@ -1,5 +1,24 @@
+			<?php
+			session_start();
+			$logout=@$_GET['logout'];
+			if($logout ==1)  
+			{
+				$_SESSION['loggedin']=0;
+				setcookie('N1USER','',-1,'/', '', '', true);
+				setcookie('N1PASSID','',-1,'/', '', '', true);
+			}
+			if($_SESSION['loggedin']!=1)
+			{
+				echo "<p align=center>" ;
+				echo "<font color=#ff0000 size=5><strong><big>" ;
+				echo "你没有登录,请<a href='index.php'>登录</a>!" ;
+				echo "</big></strong></font></p>" ;
+				header("Location:index.php");
+				exit;
+			}
+			?>
 <head>
-<title>NAS管理页面</title>
+<title>N1控制面板</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -34,16 +53,6 @@ nav{
         <tbody>
           <tr>
 			<?php
-			session_start();
-			$logout=@$_GET['logout'];
-			if($logout ==1)  
-				$_SESSION['loggedin']=0;
-
-			if($_SESSION['loggedin']!=1)
-			{
-				header("Location:index.php");
-				exit;
-			}
 			$url=$_SERVER['HTTP_HOST'];
 			#echo ($url);
 			echo"<td><a href=\"http://$url:8080\" target=\"_blank\" class=\"waves-effect waves-light btn\">后台管理</a></td>";

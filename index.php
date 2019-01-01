@@ -7,75 +7,168 @@ if(isset($_SESSION['loggedin'])&&$_SESSION['loggedin']==1)
     exit;
 }
 
-//require("../header.html");
 ?>
-    <body style="background:url(./img/<?php echo  mt_rand(1,11);?>.jpg) no-repeat;background-size:100% 100%;">
-  <div>
-    <div>
-      <form  method="post">
-        <h3>N1-后台管理</h3>
-        <div id="info" style="display:none"></div>
-        <input name="login" value="1" type="hidden" />
-        <br />
-        <input id="username" name="username" placeholder="Username" type="text" />
-        <br />
-        <input id="password" name="password" placeholder="Password" type="password" />
-        <br />
-        <!---- <span><a href="#" alt="未开放注册！">注册</a></span> ---->
-        <input type="submit" style="float:left;" value="登录" />
-      </form>
-	  <a id="btn_login" href="file/ES_3.2.5_Mod.apk">ES文件浏览器下载</a> 
-    </div>
+<head>
+<title>N1控制面板登录</title>
+<link type="text/css" rel="stylesheet" href="css/main.css"  media="screen,projection"/>
+</head>
+    <body style="background-image:url(./img/<?php echo  mt_rand(1,11);?>.jpg);">
+	
+
+<div id="login_frame">
+ <div id ="title"></div>
+    <form method="post">
+ 		<input name="login" value="1" type="hidden" />
+        <p><label class="label_input">用户名</label><input type="text" id="username" name="username" class="text_field"/></p>
+        <p><label class="label_input">密码</label><input type="password" id="password" name="password" class="text_field"/></p>
+        <div id="login_control">
+        	<input class="checkbox" type="checkbox" name="remember">记住我
+            <input type="submit" align="right" id="btn_login" value="登录" />
+            </br><div id="sysinfo"><?php 
+            if(PHP_OS=="Linux")
+			{
+				function sys_linux()
+
+				{
+					// UPTIME
+
+				    if (false === ($str = @file("/proc/uptime"))) return false;
+
+				    $str = explode(" ", implode("", $str));
+
+				    $str = trim($str[0]);
+
+				    $min = $str / 60;
+
+				    $hours = $min / 60;
+
+				    $days = floor($hours / 24);
+
+				    $hours = floor($hours - ($days * 24));
+
+				    $min = floor($min - ($days * 60 * 24) - ($hours * 60));
+
+				    if ($days !== 0) $res['uptime'] = $days."天";
+
+				    if ($hours !== 0) $res['uptime'] .= $hours."小时";
+
+				    $res['uptime'] .= $min."分钟";
+
+				    // LOAD AVG
+				    if (false === ($str = @file("/proc/loadavg"))) return false;
+				    $str = explode(" ", implode("", $str));
+				    $str = array_chunk($str, 4);
+				    $res['loadAvg'] = implode(" ", $str[0]);
+				    return $res;
+				}
+
+				$sysReShow = (false !== ($sysInfo = sys_linux()))?"show":"none";
+				$load = $sysInfo['loadAvg'];
+				$uptime = $sysInfo['uptime']; //在线时间
+				echo "系统负载";
+				echo $load;
+				echo "</div><div id=\"sysinfo\" style=\"float: right\">";
+				echo "当前运行";
+				echo $uptime;
+
+			
+			}
+
+        else
+            echo "sysinfo只支持Linux系统";
+            ?></div>
+
+            </br><div id="info" style="display:none"></div>
+			</br></br><div id="downer"><a id="downer_herf" href="file/ES_3.2.5_Mod.apk">ES文件浏览器下载</a></div>
+            
+          
+        </div>
+   </form>
+</div>
+<div class="downer" onclick="location.href='index.php'"></div>
+
 
 <?php
+
+if(!empty($_COOKIE['N1USER']))
+{
+	$n1user=$_COOKIE['N1USER'];
+	$cookies=$_COOKIE['N1PASSID'];
+	$cookiessalt='QEijiwfe2015.。?';
+	if($cookies==md5($n1user.md5($_SERVER['HTTP_USER_AGENT']).$cookiessalt))
+	{
+		$_SESSION['loggedin']=1;
+		header("Location:index.php");
+	}
+}
+
 if(isset($_POST['login']))
 {
+
     $user =$_POST['username'];
-    $password = $_POST['password'];
-	
-	
-    //connect to mysql
-    #$dbc = new mysqli('localhost','user','password','upload');
-    #$query = "SELECT count(*) FROM user where name ='".$user."' and
-	#password = '".sha1($password)."'";							//使用 sha1（）对密码进行了加密
-    #$result = mysqli_query($dbc,$query);
-	   //if($user=="admin")
-	   //{
-			 
-	   #     echo "数据查询失败！";
-	   #     exit;
-	   # }
-	   # $row = mysqli_fetch_row($result);
-	   # $count = $row[0];											//数据库中不应该使用多个相同的用户，所以这里返回的只能是 0或者1
-	   if($user=="admin"&&$password=="2017" )
+    $pass = $_POST['password'];
+    
+
+	require "connet.php";					//数据库部分
+
+	$sql = "SELECT username,password,salt FROM user where username ='".$user.'\'';
+	$result = $conn->query($sql);
+	#echo $conn->error;
+	$mysql=mysqli_fetch_array($result);
+	$conn->close();
+	$real_password=$mysql["password"];
+	$salt=$mysql["salt"];
+	$password=md5($pass.sha1($salt).$user);
+
+	#echo "</br>";
+	#echo $real_password;
+	#echo "</br></br>";
+	#echo $salt;
+	#echo "</br></br>";
+	#echo $password;
+
+		if($password!=$real_password)
+	   	#if($password==$real_password)
 		   {
-				echo "密码正确";
-				echo $_SESSION['loggedin'];
-				echo "</br>";
 				$_SESSION['loggedin']=1;
 				echo $_SESSION['loggedin'];
-				
-				
-			     header("Location:index.php");
-			   exit;
+
+				if(!empty($_POST['remember'])){     //记住我功能
+
+				//如果用户选择了记录登录状态就把用户名和加了密的密码放到cookie里面 
+					
+					ini_set("session.cookie_httponly", 1);
+					session_set_cookie_params(0, NULL, NULL, NULL, TRUE); 
+					setcookie("N1USER", sha1($user), time()+3600*24*30,'/', '', '', true); 
+			        setcookie("N1PASSID", md5(sha1($user).md5($_SERVER['HTTP_USER_AGENT']).$cookiessalt), time()+3600*24*30,'/', '', '', true);
+			    	}  
+				else
+				{
+					setcookie('N1USER','',-1,'/', '', '', true);
+					setcookie('N1PASSID','',-1,'/', '', '', true);
+				}
+			    header("Location:index.php");
+			   	exit;
 		  }
-		/* else
-			{
-				//echo $_SESSION['loggedin'];
-				
-			} */
-		//} 
 		
 	else
-	{
-	echo ("</br>你的用户名");
-	echo ($user);
-	echo "</br>你的密码";
-	echo ($password);											//显示错误信息
-	echo" <script > document.getElementById(\"info\").style.display='block';
-		  document.getElementById(\"info\").innerHTML='你觉得是用户名错了还是密码错了？ ';
-		  </script > ";
-	
+	{						//显示错误信息
+		echo "<script > document.getElementById(\"info\").style.display='block';";
+		if(empty($_POST['username']))
+		{
+			echo "string";
+			echo "document.getElementById(\"info\").innerHTML='账号密码都懒得输？过分了啊'";
+		}
+		else
+		{
+			echo "document.getElementById(\"info\").innerHTML='你的用户名";
+			echo ($user);
+			echo "</br>你的密码";			
+			echo ($pass);
+			echo "</br>你觉得是用户名错了还是密码错了？ ';
+				  </script > ";
+		}
+		
 	}
 }
 

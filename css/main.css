@@ -1,0 +1,186 @@
+body {
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+	background: url() no-repeat center center/cover;
+}
+
+#title {
+    width: 425px; 
+    height: 150px;
+    /* margin : 13px; */
+   /*  background: #6699cc url(../img/login.png); */
+    background: #6699cc url(../img/n1.png);
+    /* background: rgba(0,0,0,0.1); */
+    font-weight: 100;
+    position: relative;
+  left: -14px;
+  top: -13px;
+    padding-top: 0px;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    border: 1px solid rgba(255,255,255,0.03);
+} 
+
+.title .logo {
+    text-align: center;
+    font-size: 40px;
+    width: 100%;
+    padding-top: 30px;
+    color: #fff;
+    -webkit-box-reflect: below -13px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(255, 255, 255, 0.2)));
+    background-image: -webkit-linear-gradient(92deg,#FFFFFF,#14A1FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: hue 6s 100 linear;
+}
+
+
+.title .info {
+    text-align: right;
+    font-size: 14px;
+    color: #aaddff;
+    padding-right: 14px;
+    padding-top: 30px;
+    font-weight: 400;
+}
+
+.title .logo i {
+    color: #aaddff;
+    font-weight: 400;
+    margin-right: 10px;
+    -webkit-text-fill-color: #aaddff;
+}
+
+#login_frame {
+    width: 400px;
+    height: 440px;
+    padding: 13px;
+ 
+    box-shadow: 0px 20px 60px rgba(0,0,0,0.4), 0px 0px 150px rgba(0,0,0,0.4);
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    margin-left: -200px;
+    margin-top: -200px;
+ 
+    background-color: rgba(240, 255, 255, 0.6);
+ 
+    border-radius: 10px;
+    text-align: center;
+}
+ 
+form p > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+ 
+#image_logo {
+    margin-top: 22px;
+}
+ 
+.label_input {
+    font-size: 14px;
+    font-family: 宋体;
+ 
+    width: 65px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+ 
+    color: white;
+    background-color: #3890ff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+ 
+.text_field {
+    width: 278px;
+    height: 28px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 0;
+}
+ 
+#btn_login {
+    font-size: 14px;
+ 
+    width: 140px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+ 
+    color: white;
+    background-color: #3890ff;
+    border-radius: 6px;
+    border: 0;
+ 
+    float: center;
+}
+ 
+#downer {
+    font-size: 14px;
+    position: absolute;
+    top: 410px;
+    left: 46px;
+    width: 334px;
+    height: 30px;
+    line-height: 28px;
+    text-align: center;
+ 
+    color: white;
+    background-color: #3890ff;
+    border-radius: 6px;
+    border: 0;
+	text-decoration: none;   /* 去除超链接下划线 */
+
+
+
+}
+ 
+#downer_herf {
+    font-size: 21px;
+    /*font-family: 宋体;*/
+ 
+    height: 38px;
+    line-height: 28px;
+    text-align: center;
+ 
+    color: white;
+	text-decoration: none;   /* 去除超链接下划线 */
+}
+ 
+#sysinfo {
+    font-size: 12px;
+    color: #17d81d;
+    font-family: "Microsoft Yahei",Tahoma, Arial;
+    text-decoration: none;
+    position: relative;
+    float: left;
+    top: 5px;
+ 
+}
+ 
+#downer:hover {
+    color: blue;
+    text-decoration: underline;
+}
+ 
+#login_control {
+    padding: 0 28px;
+
+
+    /* width: 400px;
+    height: 260px;
+    padding: 13px;
+ 
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -200px;
+ 
+    background-color: rgba(240, 255, 255, 0.5);
+ 
+    border-radius: 10px;
+    text-align: center; */
+}
